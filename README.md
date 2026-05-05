@@ -84,126 +84,7 @@ O sistema utiliza sobrecarga em dois casos:
 - `atualizarStatus(StatusEntrega, String)` - Atualiza status com observacao
 
 ## Diagrama de Classes UML
-@startuml
-skinparam classBackgroundColor #F0F8FF
-skinparam borderColor #333333
-
-interface Calculavel {
-    + calcularCustoEntrega(double): double
-    + calcularTempoEntrega(double): int
-}
-
-abstract class Entregador {
-    - id: String
-    - nome: String
-    - telefone: String
-    - disponivel: boolean
-    # velocidadeMediaKmH: double
-    # capacidadeCargaKg: double
-    --
-    + {abstract} getTipo(): String
-    + exibirInfo(): String
-    + calcularCustoEntrega(double): double
-    + calcularTempoEntrega(double): int
-}
-
-class EntregadorMoto extends Entregador {
-    - CUSTO_POR_KM: double
-    - VELOCIDADE_BASE: int
-    --
-    + getTipo(): String
-    + calcularCustoEntrega(double): double
-    + calcularTempoEntrega(double): int
-}
-
-class EntregadorCarro extends Entregador {
-    - CUSTO_POR_KM: double
-    - VELOCIDADE_BASE: int
-    --
-    + getTipo(): String
-    + calcularCustoEntrega(double): double
-    + calcularTempoEntrega(double): int
-}
-
-class EntregadorBicicleta extends Entregador {
-    - CUSTO_POR_KM: double
-    - VELOCIDADE_BASE: int
-    --
-    + getTipo(): String
-    + calcularCustoEntrega(double): double
-    + calcularTempoEntrega(double): int
-}
-
-Entregador ..|> Calculavel
-
-enum StatusEntrega {
-    PENDENTE
-    EM_ROTA
-    ENTREGUE
-    CANCELADO
-}
-
-class Entrega {
-    - id: String
-    - enderecoDestino: String
-    - cliente: String
-    - distanciaKm: double
-    - pesoKg: double
-    - status: StatusEntrega
-    - entregadorAtribuido: Entregador
-    - dataCriacao: LocalDateTime
-    - dataConclusao: LocalDateTime
-    --
-    + Entrega(String, String, String, double, double)
-    + Entrega(String, String, String, double, double, Entregador)
-    + getId(): String
-    + getEnderecoDestino(): String
-    + getCliente(): String
-    + getDistanciaKm(): double
-    + getPesoKg(): double
-    + getStatus(): StatusEntrega
-    + getEntregadorAtribuido(): Entregador
-    + getDataCriacao(): LocalDateTime
-    + atualizarStatus(StatusEntrega): void
-    + atualizarStatus(StatusEntrega, String): void
-    + atribuirEntregador(Entregador): void
-    + exibirDetalhes(): void
-    + toString(): String
-}
-
-Entrega o-- Entregador
-Entrega ..> StatusEntrega
-
-class Main {
-    - {static} entregadores: List<Entregador>
-    - {static} entregas: List<Entrega>
-    - {static} scanner: Scanner
-    - {static} nextEntregadorId: int
-    - {static} nextEntregaId: int
-    --
-    + {static} main(String[]): void
-    - {static} inicializarDados(): void
-    - {static} exibirMenu(): void
-    - {static} cadastrarEntregador(): void
-    - {static} gerarId(int): String
-    - {static} listarEntregadores(): void
-    - {static} criarEntrega(): void
-    - {static} listarEntregas(): void
-    - {static} atribuirEntrega(): void
-    - {static} atualizarStatusEntrega(): void
-    - {static} exibirDetalhesEntrega(): void
-    - {static} lerString(String): String
-    - {static} lerInteiro(String): int
-    - {static} lerDouble(String): double
-}
-
-Main ..> Entregador
-Main ..> Entrega
-Main ..> Calculavel
-Main ..> StatusEntrega
-
-@enduml
-
+Imagem no Teams.
 ## Como Executar o Projeto
 
 ### Pre-requisitos
@@ -230,30 +111,15 @@ javac *.java
 java Main
 
 ### Exemplo do Menu Principal
+Imagem no teams
 
-╔══════════════════════════════════════╗
-║     SISTEMA DE ENTREGAS E-COMMERCE   ║
-╠══════════════════════════════════════╣
-║ 1 - Cadastrar Entregador             ║
-║ 2 - Listar Entregadores              ║
-║ 3 - Criar Entrega                    ║
-║ 4 - Listar Entregas                  ║
-║ 5 - Atribuir Entrega a Entregador    ║
-║ 6 - Atualizar Status da Entrega      ║
-║ 7 - Detalhes da Entrega              ║
-║ 0 - Sair                             ║
-╚══════════════════════════════════════╝
+<img width="325" height="254" alt="image" src="https://github.com/user-attachments/assets/95d13e50-05e0-40b4-93e4-039fab7fb759" />
+╝
 
 ### Estrutura dos Arquivos
 
-Checkpoint_Java/src/
-├── Main.java                 # Classe principal com menu interativo
-├── Calculavel.java           # Interface para calculos
-├── Entregador.java           # Classe abstrata base
-├── EntregadorMoto.java       # Entregador de moto
-├── EntregadorCarro.java      # Entregador de carro
-├── EntregadorBicicleta.java  # Entregador de bicicleta
-└── Entrega.java              # Classe de pedidos/entregas
+
+
 
 ### Dados de Exemplo
 
