@@ -84,122 +84,125 @@ O sistema utiliza sobrecarga em dois casos:
 - `atualizarStatus(StatusEntrega, String)` - Atualiza status com observacao
 
 ## Diagrama de Classes UML
+@startuml
+skinparam classBackgroundColor #F0F8FF
+skinparam borderColor #333333
 
-+---------------------------------------------------------------------+
-|                            <<interface>>                            |
-|                              Calculavel                              |
-+---------------------------------------------------------------------+
-| +calcularCustoEntrega(distanciaKm: double): double                  |
-| +calcularTempoEntrega(distanciaKm: double): int                     |
-+---------------------------------------------------------------------+
-                                      ^
-                                      | implements
-                                      |
-+---------------------------------------------------------------------+
-|                           <<abstract>>                              |
-|                              Entregador                              |
-+---------------------------------------------------------------------+
-| - id: String                                                        |
-| - nome: String                                                      |
-| - telefone: String                                                  |
-| - disponivel: boolean                                               |
-| # velocidadeMediaKmH: double                                        |
-| # capacidadeCargaKg: double                                         |
-+---------------------------------------------------------------------+
-| + Entregador(id, nome, telefone, velocidade, capacidade)            |
-| + getId(): String                                                   |
-| + getNome(): String                                                 |
-| + getTelefone(): String                                             |
-| + isDisponivel(): boolean                                           |
-| + setDisponivel(disponivel: boolean): void                          |
-| + getVelocidadeMediaKmH(): double                                   |
-| + getCapacidadeCargaKg(): double                                    |
-| + {abstract} getTipo(): String                                      |
-| + exibirInfo(): String                                              |
-| + calcularCustoEntrega(distanciaKm: double): double                 |
-| + calcularTempoEntrega(distanciaKm: double): int                    |
-| + toString(): String                                                |
-+---------------------------------------------------------------------+
-         ^                    ^                    ^
-         |                    |                    |
-         | extends            | extends            | extends
-         |                    |                    |
-+----------------+  +------------------+  +---------------------+
-| EntregadorMoto |  | EntregadorCarro  |  | EntregadorBicicleta  |
-+----------------+  +------------------+  +---------------------+
-| - CUSTO_POR_KM  |  | - CUSTO_POR_KM   |  | - CUSTO_POR_KM       |
-| - VELOCIDADE    |  | - VELOCIDADE     |  | - VELOCIDADE         |
-+----------------+  +------------------+  +---------------------+
-| + getTipo()     |  | + getTipo()      |  | + getTipo()          |
-| + calcular...() |  | + calcular...()  |  | + calcular...()      |
-+----------------+  +------------------+  +---------------------+
+interface Calculavel {
+    + calcularCustoEntrega(double): double
+    + calcularTempoEntrega(double): int
+}
 
-+---------------------------------------------------------------------+
-|                               Entrega                                |
-+---------------------------------------------------------------------+
-| - id: String                                                        |
-| - enderecoDestino: String                                           |
-| - cliente: String                                                   |
-| - distanciaKm: double                                               |
-| - pesoKg: double                                                    |
-| - status: StatusEntrega                                             |
-| - entregadorAtribuido: Entregador                                   |
-| - dataCriacao: LocalDateTime                                        |
-| - dataConclusao: LocalDateTime                                      |
-+---------------------------------------------------------------------+
-| + Entrega(id, endereco, cliente, distancia, peso)                   |
-| + Entrega(id, endereco, cliente, distancia, peso, entregador)       |
-| + getId(): String                                                   |
-| + getEnderecoDestino(): String                                      |
-| + getCliente(): String                                              |
-| + getDistanciaKm(): double                                          |
-| + getPesoKg(): double                                               |
-| + getStatus(): StatusEntrega                                        |
-| + getEntregadorAtribuido(): Entregador                              |
-| + getDataCriacao(): LocalDateTime                                   |
-| + atualizarStatus(novoStatus: StatusEntrega): void                  |
-| + atualizarStatus(novoStatus: StatusEntrega, obs: String): void     |
-| + atribuirEntregador(entregador: Entregador): void                  |
-| + exibirDetalhes(): void                                            |
-| + toString(): String                                                |
-+---------------------------------------------------------------------+
-         |
-         | possui
-         v
-+---------------------------------------------------------------------+
-|                              <<enum>>                               |
-|                            StatusEntrega                            |
-+---------------------------------------------------------------------+
-| PENDENTE                                                            |
-| EM_ROTA                                                             |
-| ENTREGUE                                                            |
-| CANCELADO                                                           |
-+---------------------------------------------------------------------+
+abstract class Entregador {
+    - id: String
+    - nome: String
+    - telefone: String
+    - disponivel: boolean
+    # velocidadeMediaKmH: double
+    # capacidadeCargaKg: double
+    --
+    + {abstract} getTipo(): String
+    + exibirInfo(): String
+    + calcularCustoEntrega(double): double
+    + calcularTempoEntrega(double): int
+}
 
-+---------------------------------------------------------------------+
-|                                Main                                  |
-+---------------------------------------------------------------------+
-| - {static} entregadores: List<Entregador>                           |
-| - {static} entregas: List<Entrega>                                  |
-| - {static} scanner: Scanner                                         |
-| - {static} nextEntregadorId: int                                    |
-| - {static} nextEntregaId: int                                       |
-+---------------------------------------------------------------------+
-| + {static} main(args: String[]): void                               |
-| - {static} inicializarDados(): void                                 |
-| - {static} exibirMenu(): void                                       |
-| - {static} cadastrarEntregador(): void                              |
-| - {static} gerarId(tipo: int): String                               |
-| - {static} listarEntregadores(): void                               |
-| - {static} criarEntrega(): void                                     |
-| - {static} listarEntregas(): void                                   |
-| - {static} atribuirEntrega(): void                                  |
-| - {static} atualizarStatusEntrega(): void                           |
-| - {static} exibirDetalhesEntrega(): void                            |
-| - {static} lerString(mensagem: String): String                      |
-| - {static} lerInteiro(mensagem: String): int                        |
-| - {static} lerDouble(mensagem: String): double                      |
-+---------------------------------------------------------------------+
+class EntregadorMoto extends Entregador {
+    - CUSTO_POR_KM: double
+    - VELOCIDADE_BASE: int
+    --
+    + getTipo(): String
+    + calcularCustoEntrega(double): double
+    + calcularTempoEntrega(double): int
+}
+
+class EntregadorCarro extends Entregador {
+    - CUSTO_POR_KM: double
+    - VELOCIDADE_BASE: int
+    --
+    + getTipo(): String
+    + calcularCustoEntrega(double): double
+    + calcularTempoEntrega(double): int
+}
+
+class EntregadorBicicleta extends Entregador {
+    - CUSTO_POR_KM: double
+    - VELOCIDADE_BASE: int
+    --
+    + getTipo(): String
+    + calcularCustoEntrega(double): double
+    + calcularTempoEntrega(double): int
+}
+
+Entregador ..|> Calculavel
+
+enum StatusEntrega {
+    PENDENTE
+    EM_ROTA
+    ENTREGUE
+    CANCELADO
+}
+
+class Entrega {
+    - id: String
+    - enderecoDestino: String
+    - cliente: String
+    - distanciaKm: double
+    - pesoKg: double
+    - status: StatusEntrega
+    - entregadorAtribuido: Entregador
+    - dataCriacao: LocalDateTime
+    - dataConclusao: LocalDateTime
+    --
+    + Entrega(String, String, String, double, double)
+    + Entrega(String, String, String, double, double, Entregador)
+    + getId(): String
+    + getEnderecoDestino(): String
+    + getCliente(): String
+    + getDistanciaKm(): double
+    + getPesoKg(): double
+    + getStatus(): StatusEntrega
+    + getEntregadorAtribuido(): Entregador
+    + getDataCriacao(): LocalDateTime
+    + atualizarStatus(StatusEntrega): void
+    + atualizarStatus(StatusEntrega, String): void
+    + atribuirEntregador(Entregador): void
+    + exibirDetalhes(): void
+    + toString(): String
+}
+
+Entrega o-- Entregador
+Entrega ..> StatusEntrega
+
+class Main {
+    - {static} entregadores: List<Entregador>
+    - {static} entregas: List<Entrega>
+    - {static} scanner: Scanner
+    - {static} nextEntregadorId: int
+    - {static} nextEntregaId: int
+    --
+    + {static} main(String[]): void
+    - {static} inicializarDados(): void
+    - {static} exibirMenu(): void
+    - {static} cadastrarEntregador(): void
+    - {static} gerarId(int): String
+    - {static} listarEntregadores(): void
+    - {static} criarEntrega(): void
+    - {static} listarEntregas(): void
+    - {static} atribuirEntrega(): void
+    - {static} atualizarStatusEntrega(): void
+    - {static} exibirDetalhesEntrega(): void
+    - {static} lerString(String): String
+    - {static} lerInteiro(String): int
+    - {static} lerDouble(String): double
+}
+
+Main ..> Entregador
+Main ..> Entrega
+Main ..> Calculavel
+Main ..> StatusEntrega
+
+@enduml
 
 ## Como Executar o Projeto
 
