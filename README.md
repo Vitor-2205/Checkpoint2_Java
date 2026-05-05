@@ -84,7 +84,8 @@ O sistema utiliza sobrecarga em dois casos:
 - `atualizarStatus(StatusEntrega, String)` - Atualiza status com observacao
 
 ## Diagrama de Classes UML
-Imagem no Teams.
+<img width="1184" height="632" alt="image" src="https://github.com/user-attachments/assets/0e77a186-1f04-4fd7-b860-51182ab5d20a" />
+
 ## Como Executar o Projeto
 
 ### Pre-requisitos
@@ -117,6 +118,8 @@ Imagem no teams
 ╝
 
 ### Estrutura dos Arquivos
+<img width="444" height="479" alt="image" src="https://github.com/user-attachments/assets/7e2e245d-c0ea-46ee-b9f3-4a2966715b52" />
+
 
 
 
