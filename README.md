@@ -9,6 +9,7 @@
 | Membro | RM |
 |--------|-----|
 | Vitor Carvalho Alexandre | 562298 |
+| Alexandre Martins Lucas | 561732 |
 
 ## Explicacao do Sistema
 
